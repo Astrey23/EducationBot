@@ -1,28 +1,29 @@
 ﻿using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace ConsoleApp1.Commands;
 
-public class WeatherCommand: ICommand
+public class WeatherCommand : ICommand
 {
     public async Task Execute(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
     {
-        var chatId = update.Message.Chat.Id;
-        var latitude = update.Message.Location.Latitude;
-        var longitude = update.Message.Location.Longitude;
-        var clientHttp = new HttpClient();
-        string url = $"https://www.7timer.info/bin/civillight.php?lon={longitude}4&lat={latitude}&output=json";
-        var response = await clientHttp.GetStringAsync(url);
+        var chatId = update.CallbackQuery!.From.Id;
+        var data = update.CallbackQuery.Data!.Split('_');
+        var latitude = double.Parse(data[1]);
+        var longitude = double.Parse(data[2]);
+        var day = int.Parse(data[3]);
+        using var clientHttp = new HttpClient();
+        var url = $"https://www.7timer.info/bin/civillight.php?lon={longitude}4&lat={latitude}&output=json";
+        var response = await clientHttp.GetStringAsync(url, cancellationToken);
         WeatherData weatherData = JsonConvert.DeserializeObject<WeatherData>(response);
-        var day = weatherData.Dataseries[1].Weather;
-        var text = $"Погода на завтра - {weatherData.Dataseries[1].Weather} \nМинимальная температура: {weatherData.Dataseries[1].Temp2m.Min} градусов \nМаксимальная температура: {weatherData.Dataseries[1].Temp2m.Max} градусов \nСкорость ветра: {weatherData.Dataseries[1].Wind10m_Max} м/c";
+        var weather = weatherData.Dataseries[day];
+        var text = $"Погода на {weather.Date} - {weather.Weather} \nМинимальная температура: {weather.Temperature.Min} градусов \nМаксимальная температура: {weather.Temperature.Max} градусов \nСкорость ветра: {weather.WindSpeed} м/c";
         await client.SendTextMessageAsync(chatId, text, cancellationToken: cancellationToken);
     }
 
     public bool CanBeExecuted(Update update)
     {
-        return update.Message is { Location: not null };
+        return update.CallbackQuery?.Data != null && update.CallbackQuery.Data.StartsWith("weather");
     }
 }

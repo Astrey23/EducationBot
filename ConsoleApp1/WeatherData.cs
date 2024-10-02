@@ -2,8 +2,6 @@
 
 public class WeatherData
 {
-    public string Product { get; set; }
-    public string Init { get; set; }
-    public List<Dataseries> Dataseries { get; set; }
+    public required Dataseries[] Dataseries { get; init; }
 
 }

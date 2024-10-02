@@ -2,7 +2,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-ICommand[] commands = {new EgorCommand(), new HelloCommand(), new WeatherCommand()};
+ICommand[] commands = [new EgorCommand(), new SelectDayCommand(), new HelloCommand(), new WeatherCommand()];
 
 using var cts = new CancellationTokenSource();
 var client = new TelegramBotClient("7594165971:AAFQqR4KMFwaWMx42h01CVe-iHwX0msYszE");

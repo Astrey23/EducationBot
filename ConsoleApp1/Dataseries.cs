@@ -1,9 +1,15 @@
-﻿namespace ConsoleApp1;
+﻿using Newtonsoft.Json;
+
+namespace ConsoleApp1;
 
 public class Dataseries
 {
-    public int Date { get; set; }
-    public string Weather { get; set; }
-    public Temp2m Temp2m { get; set; }
-    public int Wind10m_Max { get; set; }
+    public required int Date { get; init; }
+    public required string Weather { get; init; }
+    
+    [JsonProperty("Temp2m")]
+    public required Temperature Temperature { get; init; }
+    
+    [JsonProperty("Wind10m_Max")]
+    public required int WindSpeed { get; init; }
 }
