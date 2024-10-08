@@ -6,7 +6,7 @@ namespace ConsoleApp1.Commands;
 
 public class WeatherCommand : ICommand
 {
-    public async Task Execute(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
+    public async Task ExecuteAsync(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
     {
         var chatId = update.CallbackQuery!.From.Id;
         var data = update.CallbackQuery.Data!.Split('_');

@@ -5,6 +5,6 @@ namespace ConsoleApp1.Commands;
 
 public interface ICommand
 {
-    Task Execute(ITelegramBotClient client, Update update, CancellationToken cancellationToken);
+    Task ExecuteAsync(ITelegramBotClient client, Update update, CancellationToken cancellationToken);
     bool CanBeExecuted(Update update);
 }

@@ -6,7 +6,7 @@ namespace ConsoleApp1.Commands;
 
 public class EgorCommand : ICommand
 {
-    public async Task Execute(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
+    public async Task ExecuteAsync(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
     {
         var chatId = update.Message!.Chat.Id;
         const string message = "Хорош";

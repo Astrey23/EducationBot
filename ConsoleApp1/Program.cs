@@ -1,8 +1,10 @@
 ﻿using ConsoleApp1.Commands;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using User = ConsoleApp1.Entities.User;
 
-ICommand[] commands = [new EgorCommand(), new SelectDayCommand(), new HelloCommand(), new WeatherCommand()];
+var users = new List<User>();
+ICommand[] commands = [new AdCommand(users), new AdSendCommand(users), new EgorCommand(), new SelectDayCommand(), new HelloCommand(users), new WeatherCommand()];
 
 using var cts = new CancellationTokenSource();
 var client = new TelegramBotClient("7594165971:AAFQqR4KMFwaWMx42h01CVe-iHwX0msYszE");
@@ -16,7 +18,7 @@ async Task OnUpdate(ITelegramBotClient client, Update update, CancellationToken 
     foreach (var command in commands)
     {
         if (!command.CanBeExecuted(update)) continue;
-        await command.Execute(client, update, cancellationToken);
+        await command.ExecuteAsync(client, update, cancellationToken);
         break;
     }
 }

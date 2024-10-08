@@ -6,7 +6,7 @@ namespace ConsoleApp1.Commands;
 
 public class SelectDayCommand : ICommand
 {
-    public async Task Execute(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
+    public async Task ExecuteAsync(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
     {
         var location = update.Message!.Location!;
         const string format = "weather_{0}_{1}_{2}";
