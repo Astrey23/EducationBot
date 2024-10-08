@@ -1,6 +1,9 @@
-﻿using Telegram.Bot;
+﻿using System.Net;
+using Newtonsoft.Json;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using File = System.IO.File;
 using User = ConsoleApp1.Entities.User;
 
 namespace ConsoleApp1.Commands;
@@ -20,7 +23,7 @@ public class HelloCommand(List<User> users) : ICommand
         }
         else
         {
-            message = $"Dolbaeb";
+            message = $"Dolbaeb {senderId}";
         }
 
         await client.SendTextMessageAsync(senderId, message, cancellationToken: cancellationToken);
