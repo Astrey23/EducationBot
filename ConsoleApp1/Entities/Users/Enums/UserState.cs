@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1.Entities;
+﻿namespace ConsoleApp1.Entities.Users.Enums;
 
 public enum UserState
 {

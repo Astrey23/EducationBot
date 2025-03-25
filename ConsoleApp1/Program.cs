@@ -1,15 +1,33 @@
-﻿using ConsoleApp1.Commands;
+﻿using ConsoleApp1;
+using ConsoleApp1.Commands;
+using ConsoleApp1.Infrastructure;
+using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using User = ConsoleApp1.Entities.User;
+using File = System.IO.File;
+using User = ConsoleApp1.Entities.Users.User;
 
-var users = new List<User>();
-ICommand[] commands = [new AdCommand(users), new AdSendCommand(users), new EgorCommand(), new SelectDayCommand(), new HelloCommand(users), new WeatherCommand()];
+const string FilePath = "appsettings.json";
+string json = File.ReadAllText(FilePath);
+AppConfiguration? adminInfo = JsonConvert.DeserializeObject<AppConfiguration>(json);
+
+var userRepository = new InMemoryUserRepository();
+var gameRepository = new InMemoryPokerGameRepository();
+
+ICommand[] commands =
+[
+    new PokerStartCommand(userRepository, gameRepository),
+    new SelectDayCommand(),
+    new HelloCommand(userRepository), 
+    new WeatherCommand(), 
+    new CatchStickerIdCommand()
+];
 
 using var cts = new CancellationTokenSource();
-var client = new TelegramBotClient("7594165971:AAFQqR4KMFwaWMx42h01CVe-iHwX0msYszE");
-client.StartReceiving(OnUpdate,OnError,null,cts.Token);
+var client = new TelegramBotClient(adminInfo.Token);
+client.StartReceiving(OnUpdate, OnError, null, cts.Token);
 Console.ReadLine();
+return;
 
 
 // method that handle messages received by the bot:
