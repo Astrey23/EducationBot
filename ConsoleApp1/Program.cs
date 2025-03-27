@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using File = System.IO.File;
-using User = ConsoleApp1.Entities.Users.User;
+
 
 const string FilePath = "appsettings.json";
 string json = File.ReadAllText(FilePath);
@@ -17,9 +17,12 @@ var gameRepository = new InMemoryPokerGameRepository();
 ICommand[] commands =
 [
     new PokerStartCommand(userRepository, gameRepository),
+    new PokerFlopCommand(userRepository, gameRepository),
+    new PokerTurnCommand(userRepository, gameRepository),
+    new PokerRiverCommand(userRepository, gameRepository),
     new SelectDayCommand(),
-    new HelloCommand(userRepository), 
-    new WeatherCommand(), 
+    new HelloCommand(userRepository),
+    new WeatherCommand(),
     new CatchStickerIdCommand()
 ];
 

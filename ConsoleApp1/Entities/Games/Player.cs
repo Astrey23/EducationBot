@@ -1,6 +1,6 @@
 ﻿namespace ConsoleApp1.Entities.Games;
 
-public struct Player
+public class Player
 {
     public Card[]? Cards { get; set; }
     public required long UserId { get; init; }

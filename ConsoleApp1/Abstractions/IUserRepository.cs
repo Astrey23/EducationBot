@@ -1,5 +1,4 @@
-﻿using ConsoleApp1.Entities;
-using ConsoleApp1.Entities.Users;
+﻿using ConsoleApp1.Entities.Users;
 
 namespace ConsoleApp1.Abstractions;
 

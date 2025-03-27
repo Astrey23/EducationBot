@@ -6,7 +6,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace ConsoleApp1.Commands;
 
-public class PokerTurnCommand(IUserRepository userRepository, IPokerGameRepository gameRepository) : ICommand
+public class PokerFlopCommand(IUserRepository userRepository, IPokerGameRepository gameRepository) : ICommand
 {
     public async Task ExecuteAsync(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
     {
@@ -21,9 +21,9 @@ public class PokerTurnCommand(IUserRepository userRepository, IPokerGameReposito
 
         if (game == null) return;
         
-        game.Turn();
+        game.Flop();
 
-        const string turnMessage = "Вот и Терн подъехал:";
+        const string turnMessage = "Флопнул попой:";
         await client.SendTextMessageAsync(chatId, turnMessage, cancellationToken: cancellationToken);
         foreach (var card in game.CardsInTable)
         {
@@ -32,6 +32,6 @@ public class PokerTurnCommand(IUserRepository userRepository, IPokerGameReposito
     }
     public bool CanBeExecuted(Update update)
     {
-        return update.Message is { Type: MessageType.Text, Text: "/turn" };
+        return update.Message is { Type: MessageType.Text, Text: "/flop" };
     }
 }

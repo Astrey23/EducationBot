@@ -21,6 +21,7 @@ public class PokerStartCommand(IUserRepository userRepository, IPokerGameReposit
         
         var game = new PokerGame();
         game.AddPlayer(userId, name);
+        // game.AddPlayer(0, "Бот шлюха");
         game.Start();
 
         user.CurrentGameId = game.Id;
@@ -29,7 +30,7 @@ public class PokerStartCommand(IUserRepository userRepository, IPokerGameReposit
         
         const string message = "Твои карты брат:";
         await client.SendTextMessageAsync(chatId, message, cancellationToken: cancellationToken);
-
+        
         var cards = game.GetCards(userId);
         
         foreach (var card in cards)
@@ -37,7 +38,7 @@ public class PokerStartCommand(IUserRepository userRepository, IPokerGameReposit
             await client.SendStickerAsync(chatId, new InputFileId(PokerCards.CardsStickers[card]), cancellationToken: cancellationToken);
         }
     }
-
+    
     public bool CanBeExecuted(Update update)
     {
         return update.Message is { Type: MessageType.Text, Text: "/poker" };
